@@ -54,7 +54,13 @@ void init_process() {
     if (commit("first commit") != 0) {
         return;
     }
-    printf("%s", project_remote);
+    if (add_remote(project_remote) != 0) {
+        return;
+    }
+    if (push() != 0) {
+        return;
+    }
+    printf("☑ Repository initialized successfully.");
     free(project_name);
     free(project_description);
     free(project_remote);
@@ -68,6 +74,19 @@ int commit(const char *message) {
         printf("☑ Changes committed successfully.\n");
     } else {
         printf("☒ Failed to commit changes. Exit status: %d\n", WEXITSTATUS(result));
+        return 1;
+    }
+    return 0;
+}
+
+int add_remote(char *remote) {
+    char command[256];
+    snprintf(command, sizeof(command), "git remote add origin %s", remote);
+    int result = system(command);
+    if (result == 0) {
+        printf("☑ Remote added successfully.\n");
+    } else {
+        printf("☒ Failed to add the remote. Exit status: %d\n", WEXITSTATUS(result));
         return 1;
     }
     return 0;
@@ -92,6 +111,18 @@ int stage_changes() {
         printf("☑ Files staged successfully.\n");
     } else {
         printf("☒ Failed to stage files. Exit status: %d\n", WEXITSTATUS(result));
+        return 1;
+    }
+    return 0;
+}
+
+int push() {
+    int result = system("git push");
+    clear_message(1);
+    if (result == 0) {
+        printf("☑ Changes pushed successfully.\n");
+    } else {
+        printf("☒ Failed to push changes. Exit status: %d\n", WEXITSTATUS(result));
         return 1;
     }
     return 0;

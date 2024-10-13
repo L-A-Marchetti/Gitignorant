@@ -12,5 +12,8 @@ $(TARGET): $(SRC)
 	@chmod +x $(TARGET)
 	@./$(TARGET)
 
+install: $(TARGET)
+	@sudo mv $(TARGET) /usr/local/bin/
+
 clean:
 	@rm -f $(TARGET)

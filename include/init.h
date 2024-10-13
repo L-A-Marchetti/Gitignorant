@@ -10,5 +10,7 @@ int create_readme(char* pn, char* pd);
 int initialize_git_repo();
 int stage_changes();
 int commit(const char *message);
+int add_remote(char* remote);
+int push();
 
 #endif // INIT_H

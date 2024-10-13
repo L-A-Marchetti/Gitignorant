@@ -3,9 +3,9 @@
 
 #include <stdio.h>
 
-FILE *popen(const char *command, const char *mode);
-int pclose(FILE *stream);
+char* get_input();
 void init_process();
 int version_check();
+void create_readme(char* pn, char* pd);
 
 #endif // INIT_H

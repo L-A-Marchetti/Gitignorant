@@ -44,6 +44,9 @@ void init_process() {
     }
     create_readme(project_name, project_description);
     printf("%s", project_remote);
+    free(project_name);
+    free(project_description);
+    free(project_remote);
 }
 
 void create_readme(char *pn, char *pd) {

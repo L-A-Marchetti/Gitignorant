@@ -42,22 +42,71 @@ void init_process() {
     if (version_check() != 0) {
         return;
     }
-    create_readme(project_name, project_description);
+    if (create_readme(project_name, project_description) != 0) {
+        return;
+    }
+    if (initialize_git_repo() != 0) {
+        return;
+    }
+    if (stage_changes() != 0) {
+        return;
+    }
+    if (commit("first commit") != 0) {
+        return;
+    }
     printf("%s", project_remote);
     free(project_name);
     free(project_description);
     free(project_remote);
 }
 
-void create_readme(char *pn, char *pd) {
+int commit(const char *message) {
+    char command[256];
+    snprintf(command, sizeof(command), "git commit -m \"%s\"", message);
+    int result = system(command);
+    if (result == 0) {
+        printf("☑ Changes committed successfully.\n");
+    } else {
+        printf("☒ Failed to commit changes. Exit status: %d\n", WEXITSTATUS(result));
+        return 1;
+    }
+    return 0;
+}
+
+int initialize_git_repo() {
+    int result = system("git init");
+    clear_message(1);
+    if (result == 0) {
+        printf("☑ Git repository initialized successfully.\n");
+    } else {
+        printf("☒ Failed to initialize Git repository. Exit status: %d\n", WEXITSTATUS(result));
+        return 1;
+    }
+    return 0;
+}
+
+int stage_changes() {
+    int result = system("git add -A");
+    clear_message(1);
+    if (result == 0) {
+        printf("☑ Files staged successfully.\n");
+    } else {
+        printf("☒ Failed to stage files. Exit status: %d\n", WEXITSTATUS(result));
+        return 1;
+    }
+    return 0;
+}
+
+int create_readme(char *pn, char *pd) {
     FILE *file = fopen("README.md", "w");
     if (file == NULL) {
-        perror("Error opening file");
-        return;
+        perror("☒ Error opening file");
+        return 1;
     }
     fprintf(file, "# %s\n\n", pn);
     fprintf(file, "## Description\n\n%s\n", pd);
     fprintf(file, "Repository initialized using Gitignorant | Support: https://github.com/L-A-Marchetti/Gitignorant\n");
     fclose(file);
     printf("☑ README.md created successfully!\n");
+    return 0;
 }

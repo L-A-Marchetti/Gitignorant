@@ -6,6 +6,9 @@
 char* get_input();
 void init_process();
 int version_check();
-void create_readme(char* pn, char* pd);
+int create_readme(char* pn, char* pd);
+int initialize_git_repo();
+int stage_changes();
+int commit(const char *message);
 
 #endif // INIT_H

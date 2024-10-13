@@ -11,6 +11,7 @@ int initialize_git_repo();
 int stage_changes();
 int commit(const char *message);
 int add_remote(char* remote);
-int push();
+int push_upstream();
+int name_m_branch();
 
 #endif // INIT_H

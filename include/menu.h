@@ -3,6 +3,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include "../include/init.h"
 
 #define MAJOR_VERSION 0
 #define MINOR_VERSION 0
@@ -12,5 +13,6 @@
 void launch();
 void print_menu();
 int get_menu_input();
+void clear_message(int n);
 
 #endif // MENU_H

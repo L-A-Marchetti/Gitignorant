@@ -26,15 +26,39 @@ void print_menu() {
         choice = get_menu_input();
         if (choice < 1 || choice > menu_length) {
             if (is_first == 0) {
-                printf("\033[A\033[K");
+                clear_message(1);
                 is_first++;
             } else {
-                printf("\033[A\033[K");
-                printf("\033[A\033[K");
+                clear_message(2);
             }
             printf("Invalid choice. Please try again.\n");
         }
     } while (choice < 1 || choice > menu_length);
+    switch (choice) {
+        case 1:
+            if (is_first == 0) {
+                clear_message(1);
+                is_first++;
+            } else {
+                clear_message(2);
+            }
+            init_process();
+            return;
+        case 2:
+            if (is_first == 0) {
+                clear_message(1);
+                is_first++;
+            } else {
+                clear_message(2);
+            }
+            return;
+    }
+}
+
+void clear_message(int n) {
+    for (int i = 0; i < n; i++) {
+        printf("\033[A\033[K");
+    }
 }
 
 void launch() {

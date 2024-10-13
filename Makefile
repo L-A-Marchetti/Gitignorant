@@ -9,11 +9,14 @@ all: $(TARGET)
 
 $(TARGET): $(SRC)
 	@gcc $(FLAGS) -o $(TARGET) $(SRC)
-	@chmod +x $(TARGET)
-	@./$(TARGET)
 
 install: $(TARGET)
 	@sudo mv $(TARGET) /usr/local/bin/
 
 clean:
 	@rm -f $(TARGET)
+
+run: $(SRC)
+	@gcc $(FLAGS) -o $(TARGET) $(SRC)
+	@chmod +x $(TARGET)
+	@./$(TARGET)

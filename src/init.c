@@ -1,5 +1,6 @@
 #include "../include/init.h"
 #include "../include/menu.h"
+#include <stdio.h>
 
 int version_check() {
     FILE *fp;
@@ -10,10 +11,10 @@ int version_check() {
         return 1;
     }
     if (fgets(buffer, sizeof(buffer), fp) != NULL) {
-        printf("\033[0m☑ Git is installed: %s\033[90m", buffer);
+        printf("☑ Git is installed: %s", buffer);
     } else {
         clear_message(1);
-        printf("\033[0m☒ Git is not installed: You can install it by using the command: sudo apt install git\033[90m\n");
+        printf("☒ Git is not installed: You can install it by using the command: sudo apt install git\n");
         pclose(fp);
         return 1;
     }
@@ -36,7 +37,7 @@ void init_process() {
     char* project_name = get_input();
     printf("Short description: ");
     char* project_description = get_input();
-    printf("Remote URL (example: https://github.com/L-A-Marchetti/Gitignorant.git): ");
+    printf("Remote URL: ");
     char* project_remote = get_input();
     clear_message(3);
     if (version_check() != 0) {
@@ -63,7 +64,8 @@ void init_process() {
     if (push_upstream() != 0) {
         return;
     }
-    printf("\033[0m☑ Repository initialized successfully.\033[90m\n");
+    printf("☑ Repository initialized successfully.\n");
+    printf("-> %s", project_remote);
     free(project_name);
     free(project_description);
     free(project_remote);
@@ -71,12 +73,12 @@ void init_process() {
 
 int commit(const char *message) {
     char command[256];
-    snprintf(command, sizeof(command), "git commit -m \"%s\"", message);
+    snprintf(command, sizeof(command), "git commit -m \"%s\" > /dev/null 2>&1", message);
     int result = system(command);
     if (result == 0) {
-        printf("\033[0m☑ Changes committed successfully.\033[90m\n");
+        printf("☑ Changes committed successfully.\n");
     } else {
-        printf("\033[0m☒ Failed to commit changes. Exit status: %d\n\033[90m", WEXITSTATUS(result));
+        printf("☒ Failed to commit changes. Exit status: %d\n", WEXITSTATUS(result));
         return 1;
     }
     return 0;
@@ -84,56 +86,56 @@ int commit(const char *message) {
 
 int add_remote(char *remote) {
     char command[256];
-    snprintf(command, sizeof(command), "git remote add origin %s", remote);
+    snprintf(command, sizeof(command), "git remote add origin %s > /dev/null 2>&1", remote);
     int result = system(command);
     if (result == 0) {
-        printf("\033[0m☑ Remote added successfully.\033[90m\n");
+        printf("☑ Remote added successfully.\n");
     } else {
-        printf("\033[0m☒ Failed to add the remote. Exit status: %d\n\033[90m", WEXITSTATUS(result));
+        printf("☒ Failed to add the remote. Exit status: %d\n", WEXITSTATUS(result));
         return 1;
     }
     return 0;
 }
 
 int initialize_git_repo() {
-    int result = system("git init");
+    int result = system("git init > /dev/null 2>&1");
     if (result == 0) {
-        printf("\033[0m☑ Git repository initialized successfully.\033[90m\n");
+        printf("☑ Git repository initialized successfully.\n");
     } else {
-        printf("\033[0m☒ Failed to initialize Git repository. Exit status: %d\033[90m\n", WEXITSTATUS(result));
+        printf("☒ Failed to initialize Git repository. Exit status: %d\n", WEXITSTATUS(result));
         return 1;
     }
     return 0;
 }
 
 int stage_changes() {
-    int result = system("git add -A");
+    int result = system("git add -A > /dev/null 2>&1");
     if (result == 0) {
-        printf("\033[0m☑ Files staged successfully.\n\033[90m");
+        printf("☑ Files staged successfully.\n");
     } else {
-        printf("\033[0m☒ Failed to stage files. Exit status: %d\033[90m\n", WEXITSTATUS(result));
+        printf("☒ Failed to stage files. Exit status: %d\n", WEXITSTATUS(result));
         return 1;
     }
     return 0;
 }
 
 int push_upstream() {
-    int result = system("git push -u origin main");
+    int result = system("git push -u origin main > /dev/null 2>&1");
     if (result == 0) {
-        printf("\033[0m☑ Changes pushed successfully.\033[90m\n");
+        printf("☑ Changes pushed successfully.\n");
     } else {
-        printf("\033[0m☒ Failed to push changes. Exit status: %d\033[90m\n", WEXITSTATUS(result));
+        printf("☒ Failed to push changes. Exit status: %d\n", WEXITSTATUS(result));
         return 1;
     }
     return 0;
 }
 
 int name_m_branch() {
-    int result = system("git branch -m main");
+    int result = system("git branch -m main > /dev/null 2>&1");
     if (result == 0) {
-        printf("\033[0m☑ Main branch named \"main\" successfully.\033[90m\n");
+        printf("☑ Main branch named \"main\" successfully.\n");
     } else {
-        printf("\033[0m☒ Failed to rename the main branch. Exit status: %d\033[90m\n", WEXITSTATUS(result));
+        printf("☒ Failed to rename the main branch. Exit status: %d\n", WEXITSTATUS(result));
         return 1;
     }
     return 0;
@@ -149,6 +151,6 @@ int create_readme(char *pn, char *pd) {
     fprintf(file, "## Description\n\n%s\n", pd);
     fprintf(file, "Repository initialized using Gitignorant | Support: https://github.com/L-A-Marchetti/Gitignorant\n");
     fclose(file);
-    printf("\033[0m☑ README.md created successfully!\033[90m\n");
+    printf("☑ README.md created successfully!\n");
     return 0;
 }

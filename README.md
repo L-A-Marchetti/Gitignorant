@@ -38,7 +38,7 @@ sudo apt update && sudo apt install gcc git make
 To install Gitignorant, simply run the following command:
 
 ```bash
-git clone https://github.com/your-username/gitignorant.git && cd gitignorant && make && sudo make install
+git clone https://github.com/L-A-Marchetti/Gitignorant.git && cd Gitignorant && make && make install
 ```
 
 This command will:

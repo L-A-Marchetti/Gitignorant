@@ -1,5 +1,5 @@
-TARGET = Gitignorant
-SRC = src/main.c src/menu.c src/init.c
+TARGET = gitignorant
+SRC = src/main.c src/menu.c src/init.c src/feature_branch.c
 FLAGS = -Wall -Wextra -Werror -pedantic -std=c11 \
         -Wformat=2 -Wconversion -Wimplicit-fallthrough \
         -D_FORTIFY_SOURCE=2 -D_GLIBCXX_ASSERTIONS \

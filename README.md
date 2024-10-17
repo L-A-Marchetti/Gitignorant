@@ -15,6 +15,7 @@ Gitignorant is a command-line tool that automates various GitHub tasks, making i
 
 - Automatic initialization of Git repositories
 - Creation of feature branches
+- Push feature branch process (with file autocompletion for staging)
 - [More features coming soon!]
 
 ## Installation 🛠️

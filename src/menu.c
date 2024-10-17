@@ -12,10 +12,11 @@ int get_menu_input() {
 
 void print_menu() {
     int is_first = 0;
-    char menu[3][32] = {
+    char menu[4][32] = {
     "1- Initialize a Git repository.",
     "2- Create a feature branch.",
-    "3- Quit."
+    "3- Push a feature branch.",
+    "4- Quit."
     };
     int menu_length = sizeof(menu) / sizeof(menu[0]);
     for (int i = 0; i < menu_length; i++) {
@@ -55,6 +56,15 @@ void print_menu() {
             feature_branch_process();
             return;
         case 3:
+            if (is_first == 0) {
+                clear_message(1);
+                is_first++;
+            } else {
+                clear_message(2);
+            }
+            push_feature_branch();
+            return;
+        case 4:
             if (is_first == 0) {
                 clear_message(1);
                 is_first++;

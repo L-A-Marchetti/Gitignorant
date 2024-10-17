@@ -5,10 +5,11 @@
 #include <stdlib.h>
 #include "init.h"
 #include "feature_branch.h"
+#include "feature_push.h"
 
 #define MAJOR_VERSION 0
 #define MINOR_VERSION 0
-#define PATCH_VERSION 1
+#define PATCH_VERSION 2
 #define INPUT_BUFFER 2
 
 void launch();
